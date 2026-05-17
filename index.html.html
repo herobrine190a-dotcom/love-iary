@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Love Diary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Indie+Flower&family=Pacifico&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #ffffff;
+            --pink-glow: #ffb7c5;
+            --deep-rose: #d5213f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 2000px;
+            background: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Floating Hearts */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.6;
+            filter: blur(1px);
+            animation: drift 8s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(110vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        /* Book */
+        .book {
+            position: relative;
+            width: 400px;
+            height: 580px;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+        }
+
+        .paper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            perspective: 1500px;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: var(--paper);
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            border-radius: 0 30px 30px 0;
+            box-shadow: inset 5px 0 30px rgba(255, 182, 193, 0.2),
+                        5px 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            border-radius: 30px 0 0 30px;
+            background: #fffafa;
+        }
+
+        /* Cover */
+        .cover-front {
+            background: linear-gradient(135deg, #ff758f, #ff4d6d) !important;
+            border-left: 12px solid #a4133c;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foil-box {
+            border: 2px solid rgba(255,255,255,0.6);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .heart-glow {
+            font-size: 70px;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px white); }
+            to { filter: drop-shadow(0 0 20px #ffb7c5); }
+        }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Typography */
+        .cursive {
+            font-family: 'Pacifico', cursive;
+            color: var(--deep-rose);
+        }
+
+        .handwritten {
+            font-family: 'Indie Flower', cursive;
+            color: #444;
+        }
+
+        .page-line {
+            height: 2px;
+            background: linear-gradient(to right, #ffccd5, transparent);
+            margin: 15px 0;
+        }
+
+        /* Buttons */
+        .nav-btn {
+            position: fixed;
+            bottom: 40px;
+            background: white;
+            color: var(--deep-rose);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.3);
+            font-size: 24px;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.15) rotate(10deg);
+            background: var(--deep-rose);
+            color: white;
+        }
+
+        #prevBtn { left: 50px; }
+        #nextBtn { right: 50px; }
+    </style>
+</head>
+<body>
+
+    <div id="prevBtn" class="nav-btn">💌</div>
+    <div id="nextBtn" class="nav-btn">💌</div>
+
+    <div class="book" id="book">
+
+        <!-- COVER -->
+        <div class="paper" style="z-index: 6;" id="p1">
+            <div class="front cover-front">
+                <div class="foil-box">
+                    <div class="heart-glow">💞</div>
+                    <h1 class="cursive text-4xl mb-4">Hey, Namika</h1>
+                    <p class="uppercase text-xs tracking-[0.3em] font-bold">Open this diary and keep smiling</p>
+                </div>
+            </div>
+            <div class="back p-12">
+                <h2 class="cursive text-3xl">Chapter I</h2>
+                <div class="page-line"></div>
+                <p class="handwritten text-2xl mt-10">"You are my favorite thought."</p>
+                <p class="handwritten text-xl mt-6">
+                    I never believed in magic until I saw your smile. 
+                    It feels like the whole world brightens when you smile.
+                </p>
+            </div>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="paper" style="z-index: 5;" id="p2">
+            <div class="front p-12">
+                <h2 class="cursive text-3xl">02. Midnight Thoughts</h2>
+                <div class="page-line"></div>
+                <p class="handwritten text-2xl mt-8">
+                    "I wish I could turn back time. I’d find you sooner and love you longer."
+                </p>
+                <div class="flex justify-center mt-12 animate-pulse text-3xl">✨🌹✨</div>
+            </div>
+            <div class="back p-12">
+                <h2 class="cursive text-3xl">03. Reasons Why</h2>
+                <div class="page-line"></div>
+                <ul class="handwritten text-2xl mt-8 space-y-6">
+                    <li>• Your kind heart.</li>
+                    <li>• The way you listen.</li>
+                    <li>• How you inspire me.</li>
+                    <li>• The love you give so naturally.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div class="paper" style="z-index: 4;" id="p3">
+            <div class="front p-12">
+                <h2 class="cursive text-3xl text-center">04. My Promise</h2>
+                <div class="page-line"></div>
+                <p class="handwritten text-2xl text-center mt-10 leading-relaxed">
+                    "No matter what happens, no matter where life takes us,
+                    I will always choose you."
+                </p>
+                <div class="mt-20 text-center opacity-40 italic">
+                    I hope this made you smile
+                </div>
+            </div>
+            <div class="back p-12">
+                <h2 class="cursive text-3xl text-center">The Truth</h2>
+                <div class="page-line"></div>
+                <p class="handwritten text-xl mt-6 leading-loose">
+                    People write stories about love,
+                    but for me, your name is the most beautiful story ever written.
+                </p>
+            </div>
+        </div>
+
+        <!-- PAGE 4 -->
+        <div class="paper" style="z-index: 3;" id="p4">
+            <div class="front p-12">
+                <h2 class="cursive text-4xl text-center mt-20">
+                    The end of these diary pages...
+                </h2>
+                <p class="handwritten text-2xl text-center mt-12">
+                    ...but only the beginning of us.
+                </p>
+                <div class="mt-20 text-center opacity-40 italic">
+                    Turn one last time...
+                </div>
+            </div>
+            <div class="back cover-front">
+                <div class="foil-box">
+                    <h2 class="cursive text-3xl">You will always be special to me.</h2>
+                    <div class="mt-20 text-center opacity-40 italic">
+                        [Now I’m pretty sure you’re smiling.]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* Page Flip Sound */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playScripSound() {
+            const friction = audioCtx.createOscillator();
+            const frictionGain = audioCtx.createGain();
+            const frictionFilter = audioCtx.createBiquadFilter();
+
+            friction.type = 'sawtooth';
+            frictionFilter.type = 'bandpass';
+            frictionFilter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+            frictionFilter.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.2);
+
+            frictionGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            frictionGain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.05);
+            frictionGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+
+            friction.connect(frictionFilter);
+            frictionFilter.connect(frictionGain);
+            frictionGain.connect(audioCtx.destination);
+
+            const thump = audioCtx.createOscillator();
+            const thumpGain = audioCtx.createGain();
+
+            thump.frequency.setValueAtTime(150, audioCtx.currentTime);
+            thumpGain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            thumpGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            thump.connect(thumpGain);
+            thumpGain.connect(audioCtx.destination);
+
+            friction.start();
+            thump.start();
+            friction.stop(audioCtx.currentTime + 0.3);
+            thump.stop(audioCtx.currentTime + 0.1);
+        }
+
+        /* Floating Hearts */
+        function createHeart() {
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.innerHTML = ['💖', '💕', '💗', '🌸'][Math.floor(Math.random() * 4)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 5 + 5) + 's';
+
+            document.body.appendChild(h);
+
+            setTimeout(() => h.remove(), 8000);
+        }
+
+        setInterval(createHeart, 400);
+
+        /* Book Logic */
+        let loc = 1;
+        const book = document.getElementById('book');
+        const papers = [
+            document.getElementById('p1'),
+            document.getElementById('p2'),
+            document.getElementById('p3'),
+            document.getElementById('p4')
+        ];
+
+        function next() {
+            if (loc < 5) {
+                playScripSound();
+
+                if (loc === 1) {
+                    book.style.transform = "translateX(50%)";
+                }
+
+                papers[loc - 1].classList.add('flipped');
+                papers[loc - 1].style.zIndex = loc;
+
+                if (loc === 4) {
+                    book.style.transform = "translateX(100%)";
+                }
+
+                loc++;
+            }
+        }
+
+        function prev() {
+            if (loc > 1) {
+                playScripSound();
+                loc--;
+
+                if (loc === 4) {
+                    book.style.transform = "translateX(50%)";
+                }
+
+                papers[loc - 1].classList.remove('flipped');
+                papers[loc - 1].style.zIndex = 10 - loc;
+
+                if (loc === 1) {
+                    book.style.transform = "translateX(0%)";
+                }
+            }
+        }
+
+        document.getElementById('nextBtn').onclick = next;
+        document.getElementById('prevBtn').onclick = prev;
+
+        document.querySelectorAll('.paper').forEach(p => {
+            p.onclick = (e) => {
+                const rect = p.getBoundingClientRect();
+
+                if (e.clientX - rect.left > rect.width / 2) {
+                    next();
+                } else {
+                    prev();
+                }
+            };
+        });
+    </script>
+
+</body>
+</html>
