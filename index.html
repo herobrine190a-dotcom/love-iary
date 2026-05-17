@@ -2,23 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>The Love Diary</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Quicksand:wght@400;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --paper: #ffffff;
-      --pink-glow: #ffb7c5;
+      --paper: #fff;
       --deep-rose: #d5213f;
     }
 
@@ -30,69 +23,54 @@
       user-select: none;
     }
 
-    html,
     body {
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       overflow: hidden;
-      font-family: "Quicksand", sans-serif;
-      background: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 100%);
-    }
-
-    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      perspective: 2000px;
+      background: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 100%);
+      font-family: "Quicksand", sans-serif;
       position: relative;
     }
 
-    /* Floating Hearts */
+    /* Floating hearts */
     .floating-heart {
       position: absolute;
       pointer-events: none;
       opacity: 0.7;
-      animation: drift linear forwards;
+      animation: floatUp linear forwards;
       z-index: 1;
     }
 
-    @keyframes drift {
-      0% {
-        transform: translateY(110vh) rotate(0deg);
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh) rotate(0deg);
       }
-      100% {
+      to {
         transform: translateY(-20vh) rotate(360deg);
       }
     }
 
-    /* Book Wrapper */
-    .book-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 5;
-      padding: 10px;
-    }
-
+    /* Main book */
     .book {
       position: relative;
-      width: min(92vw, 380px);
-      height: min(78vh, 580px);
-      transition: transform 0.8s ease;
-      transform-style: preserve-3d;
+      width: 94vw;
+      max-width: 390px;
+      height: 78vh;
+      max-height: 650px;
+      z-index: 5;
     }
 
     .paper {
       position: absolute;
       width: 100%;
       height: 100%;
-      top: 0;
-      left: 0;
-      perspective: 1500px;
       transform-origin: left;
       transform-style: preserve-3d;
       transition: transform 1s ease;
+      cursor: pointer;
     }
 
     .front,
@@ -100,30 +78,33 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      top: 0;
-      left: 0;
-      background: var(--paper);
       backface-visibility: hidden;
-      border-radius: 0 18px 18px 0;
-      padding: clamp(18px, 4vw, 32px);
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      box-shadow: inset 5px 0 20px rgba(255, 182, 193, 0.2),
-        4px 4px 15px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .front {
+      z-index: 2;
     }
 
     .back {
       transform: rotateY(180deg);
-      border-radius: 18px 0 0 18px;
       background: #fffafa;
     }
 
+    .flipped {
+      transform: rotateY(-180deg);
+    }
+
     /* Cover */
-    .cover-front {
+    .cover-front,
+    .cover-back {
       background: linear-gradient(135deg, #ff758f, #ff4d6d) !important;
-      border-left: 8px solid #a4133c;
       color: white;
       justify-content: center;
       align-items: center;
@@ -131,47 +112,27 @@
     }
 
     .foil-box {
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      padding: clamp(16px, 5vw, 28px);
+      border: 2px solid rgba(255,255,255,0.7);
+      padding: 22px;
       border-radius: 18px;
       width: 100%;
-      max-width: 280px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     }
 
-    .heart-glow {
-      font-size: clamp(50px, 12vw, 70px);
-      margin-bottom: 10px;
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from {
-        filter: drop-shadow(0 0 5px white);
-      }
-      to {
-        filter: drop-shadow(0 0 20px #ffb7c5);
-      }
-    }
-
-    .flipped {
-      transform: rotateY(-180deg);
-    }
-
-    /* Typography */
+    /* Fonts */
     .cursive {
       font-family: "Pacifico", cursive;
       color: var(--deep-rose);
     }
 
-    .cover-front .cursive {
+    .cover-front .cursive,
+    .cover-back .cursive {
       color: white;
     }
 
     .handwritten {
       font-family: "Indie Flower", cursive;
-      color: #444;
-      line-height: 1.5;
+      color: #333;
+      line-height: 1.6;
     }
 
     .page-line {
@@ -180,179 +141,168 @@
       margin: 12px 0;
     }
 
+    h1 {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 6vw, 2.3rem);
+    }
+
+    p,
+    li {
+      font-size: clamp(1.2rem, 4.3vw, 1.8rem);
+    }
+
+    .small {
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
     /* Buttons */
     .nav-btn {
       position: fixed;
       bottom: 20px;
       width: 58px;
       height: 58px;
+      border: none;
       border-radius: 50%;
       background: white;
-      color: var(--deep-rose);
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       font-size: 24px;
       box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
       z-index: 100;
       cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .nav-btn:active {
-      transform: scale(0.92);
     }
 
     #prevBtn {
-      left: 20px;
+      left: 18px;
     }
 
     #nextBtn {
-      right: 20px;
+      right: 18px;
     }
 
-    /* Mobile Text */
-    h1 {
-      font-size: clamp(2rem, 7vw, 3rem);
-    }
-
-    h2 {
-      font-size: clamp(1.4rem, 5vw, 2.2rem);
-    }
-
-    p,
-    li {
-      font-size: clamp(1.1rem, 4vw, 1.7rem);
-    }
-
-    .small-text {
-      font-size: clamp(0.8rem, 2.8vw, 1rem);
-    }
-
-    /* Swipe Hint */
-    .swipe-hint {
+    .hint {
       position: fixed;
-      top: 15px;
-      text-align: center;
+      top: 10px;
       width: 100%;
-      font-size: 14px;
+      text-align: center;
       color: #a4133c;
-      opacity: 0.75;
+      font-size: 14px;
       z-index: 50;
+      opacity: 0.8;
+    }
+
+    ul {
+      padding-left: 10px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    /* Scrollbar hide */
+    .front::-webkit-scrollbar,
+    .back::-webkit-scrollbar {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="swipe-hint">Swipe or tap pages 💖</div>
+
+  <div class="hint">Tap right = next • Tap left = back 💖</div>
 
   <button id="prevBtn" class="nav-btn">💌</button>
   <button id="nextBtn" class="nav-btn">💌</button>
 
-  <div class="book-container">
-    <div class="book" id="book">
-      <!-- PAGE 1 -->
-      <div class="paper" id="p1" style="z-index: 4;">
-        <div class="front cover-front">
-          <div class="foil-box">
-            <div class="heart-glow">💞</div>
-            <h1 class="cursive">Hey, Namika</h1>
-            <p class="uppercase small-text mt-3 tracking-widest font-bold">
-              Open this diary and keep smiling
-            </p>
-          </div>
-        </div>
+  <div class="book" id="book">
 
-        <div class="back">
-          <h2 class="cursive">Chapter I</h2>
-          <div class="page-line"></div>
-          <p class="handwritten mt-5">
-            "You are my favorite thought."
-          </p>
-          <p class="handwritten mt-4">
-            I never believed in magic until I saw your smile.
-            It feels like the whole world brightens when you smile.
-          </p>
+    <!-- PAGE 1 -->
+    <div class="paper" id="p1" style="z-index: 4;">
+      <div class="front cover-front">
+        <div class="foil-box">
+          <div style="font-size:60px;">💞</div>
+          <h1 class="cursive">Hey, Namika</h1>
+          <p class="small mt-3">Open this diary and keep smiling</p>
         </div>
       </div>
 
-      <!-- PAGE 2 -->
-      <div class="paper" id="p2" style="z-index: 3;">
-        <div class="front">
-          <h2 class="cursive">02. Midnight Thoughts</h2>
-          <div class="page-line"></div>
-          <p class="handwritten mt-5">
-            "I wish I could turn back time. I’d find you sooner and love you longer."
-          </p>
-          <div class="text-center text-3xl mt-10">✨🌹✨</div>
-        </div>
+      <div class="back">
+        <h2 class="cursive">Chapter I</h2>
+        <div class="page-line"></div>
+        <p class="handwritten">"You are my favorite thought."</p>
+        <p class="handwritten mt-4">
+          I never believed in magic until I saw your smile.
+          It feels like the whole world brightens when you smile.
+        </p>
+      </div>
+    </div>
 
-        <div class="back">
-          <h2 class="cursive">03. Reasons Why</h2>
-          <div class="page-line"></div>
-          <ul class="handwritten mt-4 space-y-3">
-            <li>• Your kind heart.</li>
-            <li>• The way you listen.</li>
-            <li>• How you inspire me.</li>
-            <li>• The love you give so naturally.</li>
-          </ul>
-        </div>
+    <!-- PAGE 2 -->
+    <div class="paper" id="p2" style="z-index: 3;">
+      <div class="front">
+        <h2 class="cursive">02. Midnight Thoughts</h2>
+        <div class="page-line"></div>
+        <p class="handwritten mt-4">
+          "I wish I could turn back time. I’d find you sooner and love you longer."
+        </p>
+        <div class="text-center text-4xl mt-10">✨🌹✨</div>
       </div>
 
-      <!-- PAGE 3 -->
-      <div class="paper" id="p3" style="z-index: 2;">
-        <div class="front">
-          <h2 class="cursive text-center">04. My Promise</h2>
-          <div class="page-line"></div>
-          <p class="handwritten text-center mt-8">
-            "No matter what happens, no matter where life takes us,
-            I will always choose you."
-          </p>
-          <p class="small-text text-center mt-10 italic opacity-60">
-            I hope this made you smile
-          </p>
-        </div>
+      <div class="back">
+        <h2 class="cursive">03. Reasons Why</h2>
+        <div class="page-line"></div>
+        <ul class="handwritten mt-4">
+          <li>• Your kind heart.</li>
+          <li>• The way you listen.</li>
+          <li>• How you inspire me.</li>
+          <li>• The love you give so naturally.</li>
+        </ul>
+      </div>
+    </div>
 
-        <div class="back">
-          <h2 class="cursive text-center">The Truth</h2>
-          <div class="page-line"></div>
-          <p class="handwritten mt-6">
-            People write stories about love,
-            but for me, your name is the most beautiful story ever written.
-          </p>
-        </div>
+    <!-- PAGE 3 -->
+    <div class="paper" id="p3" style="z-index: 2;">
+      <div class="front">
+        <h2 class="cursive text-center">04. My Promise</h2>
+        <div class="page-line"></div>
+        <p class="handwritten text-center mt-5">
+          "No matter what happens,
+          no matter where life takes us,
+          I will always choose you."
+        </p>
+        <p class="small text-center mt-8 italic">I hope this made you smile</p>
       </div>
 
-      <!-- PAGE 4 -->
-      <div class="paper" id="p4" style="z-index: 1;">
-        <div class="front">
-          <h2 class="cursive text-center mt-10">
-            The end of these diary pages...
-          </h2>
-          <p class="handwritten text-center mt-10">
-            ...but only the beginning of us.
-          </p>
-          <p class="small-text text-center mt-10 italic opacity-60">
-            Turn one last time...
-          </p>
-        </div>
+      <div class="back">
+        <h2 class="cursive text-center">The Truth</h2>
+        <div class="page-line"></div>
+        <p class="handwritten mt-5">
+          People write stories about love,
+          but for me, your name is the most beautiful story ever written.
+        </p>
+      </div>
+    </div>
 
-        <div class="back cover-front">
-          <div class="foil-box">
-            <h2 class="cursive">
-              You will always be special to me.
-            </h2>
-            <p class="small-text mt-8 italic opacity-80">
-              [Now I’m pretty sure you’re smiling.]
-            </p>
-          </div>
+    <!-- PAGE 4 -->
+    <div class="paper" id="p4" style="z-index: 1;">
+      <div class="front">
+        <h2 class="cursive text-center mt-8">The end of these diary pages...</h2>
+        <p class="handwritten text-center mt-8">...but only the beginning of us.</p>
+        <p class="small text-center mt-10 italic">Turn one last time...</p>
+      </div>
+
+      <div class="back cover-back">
+        <div class="foil-box">
+          <h2 class="cursive">You will always be special to me.</h2>
+          <p class="small mt-8">[Now I’m pretty sure you’re smiling.]</p>
         </div>
       </div>
     </div>
+
   </div>
 
   <script>
-    /* Audio */
+    /* Flip Sound */
     let audioCtx;
 
     function initAudio() {
@@ -368,17 +318,11 @@
       const gain = audioCtx.createGain();
 
       osc.type = "triangle";
-      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(
-        120,
-        audioCtx.currentTime + 0.2
-      );
+      osc.frequency.setValueAtTime(350, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
 
       gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioCtx.currentTime + 0.25
-      );
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -387,17 +331,15 @@
       osc.stop(audioCtx.currentTime + 0.25);
     }
 
-    /* Floating Hearts */
+    /* Hearts */
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "floating-heart";
-
       const hearts = ["💖", "💕", "💗", "🌸"];
       heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 12 + "px";
-      heart.style.animationDuration = Math.random() * 4 + 5 + "s";
+      heart.style.fontSize = (Math.random() * 20 + 12) + "px";
+      heart.style.animationDuration = (Math.random() * 4 + 5) + "s";
 
       document.body.appendChild(heart);
 
@@ -409,82 +351,65 @@
     setInterval(createHeart, 500);
 
     /* Book Logic */
-    let currentLocation = 1;
-
-    const book = document.getElementById("book");
+    let currentPage = 1;
 
     const papers = [
       document.getElementById("p1"),
       document.getElementById("p2"),
       document.getElementById("p3"),
-      document.getElementById("p4"),
+      document.getElementById("p4")
     ];
 
-    function goNextPage() {
-      if (currentLocation <= papers.length) {
+    function nextPage() {
+      if (currentPage <= papers.length) {
         playFlipSound();
-
-        papers[currentLocation - 1].classList.add("flipped");
-        papers[currentLocation - 1].style.zIndex = currentLocation;
-
-        currentLocation++;
+        papers[currentPage - 1].classList.add("flipped");
+        currentPage++;
       }
     }
 
-    function goPrevPage() {
-      if (currentLocation > 1) {
-        currentLocation--;
-
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
         playFlipSound();
-
-        papers[currentLocation - 1].classList.remove("flipped");
-        papers[currentLocation - 1].style.zIndex =
-          papers.length - currentLocation + 2;
+        papers[currentPage - 1].classList.remove("flipped");
       }
     }
 
-    document.getElementById("nextBtn").addEventListener("click", goNextPage);
-    document.getElementById("prevBtn").addEventListener("click", goPrevPage);
+    document.getElementById("nextBtn").onclick = nextPage;
+    document.getElementById("prevBtn").onclick = prevPage;
 
-    /* Tap Pages */
     papers.forEach((paper) => {
       paper.addEventListener("click", (e) => {
         const rect = paper.getBoundingClientRect();
-        const x = e.clientX - rect.left;
+        const clickX = e.clientX - rect.left;
 
-        if (x > rect.width / 2) {
-          goNextPage();
+        if (clickX > rect.width / 2) {
+          nextPage();
         } else {
-          goPrevPage();
+          prevPage();
         }
       });
     });
 
-    /* Swipe Support */
+    /* Swipe */
     let startX = 0;
 
-    document.addEventListener(
-      "touchstart",
-      (e) => {
-        startX = e.touches[0].clientX;
-      },
-      { passive: true }
-    );
+    document.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
 
-    document.addEventListener(
-      "touchend",
-      (e) => {
-        let endX = e.changedTouches[0].clientX;
-        let diff = startX - endX;
+    document.addEventListener("touchend", (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
 
-        if (diff > 50) {
-          goNextPage();
-        } else if (diff < -50) {
-          goPrevPage();
-        }
-      },
-      { passive: true }
-    );
+      if (diff > 50) {
+        nextPage();
+      } else if (diff < -50) {
+        prevPage();
+      }
+    });
   </script>
+
 </body>
 </html>
