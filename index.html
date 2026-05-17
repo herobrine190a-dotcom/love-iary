@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Love Diary</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -17,48 +17,56 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      font-family: "Quicksand", sans-serif;
-      background: linear-gradient(180deg, #fff0f3, #ffccd5);
-      overflow-x: hidden;
+    html {
       scroll-behavior: smooth;
     }
 
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to bottom, #fff0f3, #ffccd5);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
     /* Floating Hearts */
-    .floating-heart {
+    .heart {
       position: fixed;
-      pointer-events: none;
-      opacity: 0.7;
-      z-index: 1;
+      bottom: -20px;
       animation: floatUp linear forwards;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
     }
 
     @keyframes floatUp {
       from {
-        transform: translateY(100vh) rotate(0deg);
+        transform: translateY(0) rotate(0deg);
       }
       to {
-        transform: translateY(-20vh) rotate(360deg);
+        transform: translateY(-120vh) rotate(360deg);
       }
     }
 
     /* Pages */
     .page {
       min-height: 100vh;
-      width: 100%;
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      position: relative;
+    }
+
+    .page.active {
+      display: flex;
     }
 
     .card {
-      width: 92%;
+      width: 100%;
       max-width: 500px;
-      min-height: 70vh;
+      min-height: 75vh;
       background: white;
-      border-radius: 24px;
+      border-radius: 25px;
       padding: 25px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       display: flex;
@@ -81,7 +89,7 @@
     }
 
     .cursive {
-      font-family: "Pacifico", cursive;
+      font-family: 'Pacifico', cursive;
       color: #d5213f;
     }
 
@@ -90,31 +98,31 @@
     }
 
     .handwritten {
-      font-family: "Indie Flower", cursive;
+      font-family: 'Indie Flower', cursive;
       color: #333;
       line-height: 1.7;
     }
 
-    .page-line {
+    .line {
       height: 2px;
-      margin: 14px 0;
       background: linear-gradient(to right, #ffccd5, transparent);
+      margin: 15px 0;
     }
 
     h1 {
-      font-size: clamp(2.2rem, 8vw, 3.8rem);
+      font-size: clamp(2.4rem, 8vw, 4rem);
     }
 
     h2 {
-      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-size: clamp(1.8rem, 6vw, 3rem);
     }
 
     p, li {
-      font-size: clamp(1.2rem, 4.3vw, 1.8rem);
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
     }
 
     .small {
-      font-size: clamp(0.9rem, 3vw, 1rem);
+      font-size: 1rem;
     }
 
     ul {
@@ -126,112 +134,115 @@
       margin-bottom: 12px;
     }
 
-    /* Next Button */
+    /* Buttons */
     .next-btn {
-      position: absolute;
-      bottom: 25px;
-      right: 25px;
-      width: 60px;
-      height: 60px;
+      margin-top: 25px;
+      align-self: center;
+      width: 70px;
+      height: 70px;
       border: none;
       border-radius: 50%;
       background: white;
       color: #d5213f;
-      font-size: 24px;
+      font-size: 28px;
       box-shadow: 0 8px 20px rgba(255,77,109,0.3);
       cursor: pointer;
-      transition: 0.3s;
     }
 
     .next-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.92);
     }
 
     .hint {
-      position: fixed;
-      top: 10px;
-      width: 100%;
       text-align: center;
-      font-size: 14px;
+      padding: 12px;
       color: #a4133c;
-      z-index: 50;
+      font-size: 14px;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
     }
   </style>
 </head>
 <body>
 
-  <div class="hint">Tap 💌 to go next page</div>
+  <div class="hint">Tap 💌 for next page</div>
 
   <!-- PAGE 1 -->
-  <section class="page" id="page1">
+  <section class="page active">
     <div class="card cover">
       <div class="foil-box">
         <div class="text-6xl mb-4">💞</div>
         <h1 class="cursive">Hey, Namika</h1>
         <p class="small mt-4">Open this diary and keep smiling</p>
       </div>
-      <button class="next-btn" onclick="goToPage(2)">💌</button>
+      <button class="next-btn">💌</button>
     </div>
   </section>
 
   <!-- PAGE 2 -->
-  <section class="page" id="page2">
+  <section class="page">
     <div class="card">
       <h2 class="cursive">Chapter I</h2>
-      <div class="page-line"></div>
-      <p class="handwritten mt-4">"You are my favorite thought."</p>
+      <div class="line"></div>
+      <p class="handwritten">"You are my favorite thought."</p>
       <p class="handwritten mt-4">
         I never believed in magic until I saw your smile.
         It feels like the whole world brightens when you smile.
       </p>
-      <button class="next-btn" onclick="goToPage(3)">💌</button>
+      <button class="next-btn">💌</button>
     </div>
   </section>
 
   <!-- PAGE 3 -->
-  <section class="page" id="page3">
+  <section class="page">
     <div class="card">
       <h2 class="cursive">02. Midnight Thoughts</h2>
-      <div class="page-line"></div>
-      <p class="handwritten mt-4">
-        "I wish I could turn back time. I’d find you sooner and love you longer."
+      <div class="line"></div>
+      <p class="handwritten">
+        "I wish I could turn back time.
+        I’d find you sooner and love you longer."
       </p>
       <div class="text-4xl mt-8">✨🌹✨</div>
-      <button class="next-btn" onclick="goToPage(4)">💌</button>
+      <button class="next-btn">💌</button>
     </div>
   </section>
 
   <!-- PAGE 4 -->
-  <section class="page" id="page4">
+  <section class="page">
     <div class="card">
       <h2 class="cursive">03. Reasons Why</h2>
-      <div class="page-line"></div>
+      <div class="line"></div>
       <ul class="handwritten">
         <li>• Your kind heart.</li>
         <li>• The way you listen.</li>
         <li>• How you inspire me.</li>
-        <li>• The love you give so naturally.</li>
+        <li>• The love you give naturally.</li>
       </ul>
-      <button class="next-btn" onclick="goToPage(5)">💌</button>
+      <button class="next-btn">💌</button>
     </div>
   </section>
 
   <!-- PAGE 5 -->
-  <section class="page" id="page5">
+  <section class="page">
     <div class="card">
       <h2 class="cursive">04. My Promise</h2>
-      <div class="page-line"></div>
+      <div class="line"></div>
       <p class="handwritten">
-        "No matter what happens, no matter where life takes us,
+        "No matter what happens,
+        no matter where life takes us,
         I will always choose you."
       </p>
       <p class="small italic mt-8">I hope this made you smile</p>
-      <button class="next-btn" onclick="goToPage(6)">💌</button>
+      <button class="next-btn">💌</button>
     </div>
   </section>
 
   <!-- PAGE 6 -->
-  <section class="page" id="page6">
+  <section class="page">
     <div class="card cover">
       <div class="foil-box">
         <h2 class="cursive">You will always be special to me.</h2>
@@ -241,18 +252,30 @@
   </section>
 
   <script>
-    /* Smooth page navigation */
-    function goToPage(pageNumber) {
-      const page = document.getElementById("page" + pageNumber);
-      if (page) {
-        playFlipSound();
-        page.scrollIntoView({
-          behavior: "smooth"
-        });
-      }
-    }
+    /* Page System */
+    const pages = document.querySelectorAll(".page");
+    const buttons = document.querySelectorAll(".next-btn");
 
-    /* Flip Sound */
+    let currentPage = 0;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        playFlipSound();
+
+        if (currentPage < pages.length - 1) {
+          pages[currentPage].classList.remove("active");
+          currentPage++;
+          pages[currentPage].classList.add("active");
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      });
+    });
+
+    /* Sound */
     let audioCtx;
 
     function initAudio() {
@@ -269,7 +292,7 @@
 
       osc.type = "triangle";
       osc.frequency.setValueAtTime(350, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.25);
+      osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.2);
 
       gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
@@ -284,13 +307,13 @@
     /* Floating Hearts */
     function createHeart() {
       const heart = document.createElement("div");
-      heart.className = "floating-heart";
+      heart.classList.add("heart");
 
-      const hearts = ["💖", "💕", "💗", "🌸"];
-      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+      const symbols = ["💖", "💕", "💗", "🌸"];
+      heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
 
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (Math.random() * 20 + 12) + "px";
+      heart.style.fontSize = (Math.random() * 20 + 14) + "px";
       heart.style.animationDuration = (Math.random() * 4 + 5) + "s";
 
       document.body.appendChild(heart);
